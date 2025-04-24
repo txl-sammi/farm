@@ -11,8 +11,10 @@ import {
 
 const auth = getAuth(app);
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const router = useRouter();
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -27,19 +29,10 @@ const LoginPage = () => {
     return () => unsubscribe();
   }, [router]);
 
-  const handleEmailLogin = async (): Promise<void> => {
+  const handleSignUp = async (): Promise<void> => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await createUserWithEmailAndPassword(auth, email, password);
       router.push("/dashboard");
-    } catch (error: any) {
-      console.error(error);
-      setError(error.message);
-    }
-  };
-
-  const handleRegisterLink = async (): Promise<void> => {
-    try {
-      router.push("/register");
     } catch (error: any) {
       console.error(error);
       setError(error.message);
@@ -51,6 +44,26 @@ const LoginPage = () => {
       <div className="card">
         <h1>Login</h1>
         {error && <p className="error">{error}</p>}
+        <div className="form-group">
+          <label htmlFor="firstName">First Name:</label>
+          <input
+            id="firstName"
+            type="text"
+            value={firstName}
+            placeholder="Enter your first name"
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="lastName">Last Name:</label>
+          <input
+            id="lastName"
+            type="text"
+            value={lastName}
+            placeholder="Enter your last name"
+            onChange={(e) => setLastName(e.target.value)}
+          />
+        </div>
         <div className="form-group">
           <label htmlFor="email">Email:</label>
           <input
@@ -72,8 +85,7 @@ const LoginPage = () => {
           />
         </div>
         <div className="button-group">
-          <button onClick={handleEmailLogin}>Login</button>
-          <button onClick={handleRegisterLink}>Not a member? Register!</button>
+          <button onClick={handleSignUp}>Sign Up</button>
         </div>
       </div>
       <style jsx>{`
@@ -148,4 +160,5 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
+;
