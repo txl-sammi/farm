@@ -2,10 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { app } from "@/app/firebase"; // Ensure your firebase config is exported from here
+import { saveUserToFirestore } from "@/app/utils/firebase-utils";
 import {
   getAuth,
   onAuthStateChanged,
-  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 
@@ -32,6 +32,10 @@ const RegisterPage = () => {
   const handleSignUp = async (): Promise<void> => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      if (!auth.currentUser) {
+        throw new Error("User not authenticated");
+      }
+      saveUserToFirestore(auth.currentUser.uid, email, firstName, lastName);
       router.push("/dashboard");
     } catch (error: any) {
       console.error(error);
