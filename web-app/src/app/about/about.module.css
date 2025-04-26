@@ -1,0 +1,157 @@
+/* About page styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: var(--font-geist-sans);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Navbar styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.logo a {
+    display: flex;
+}
+
+.navLinks {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.navLinks a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+.loginButton {
+    font-weight: 600;
+}
+
+/* Main content styles */
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.headline {
+    font-size: 42px;
+    font-weight: 500;
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+.subheadline {
+    max-width: 800px;
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 60px;
+    color: #333;
+}
+
+/* Card styles */
+.cards {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    margin-top: 40px;
+}
+
+.card {
+    flex: 1;
+    padding: 30px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.cardIcon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 15px;
+}
+
+.card h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.card p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Footer styles */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    margin-top: 40px;
+}
+
+.footerLogo {
+    width: 40px;
+    height: 40px;
+}
+
+.footerLogo a {
+    display: flex;
+}
+
+.socialLinks {
+    display: flex;
+    gap: 20px;
+}
+
+.socialLinks a {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .cards {
+        flex-direction: column;
+    }
+
+    .headline {
+        font-size: 32px;
+    }
+
+    .navLinks {
+        gap: 20px;
+    }
+}
