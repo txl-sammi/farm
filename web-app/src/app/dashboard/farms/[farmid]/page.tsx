@@ -76,8 +76,17 @@ export default function FarmDetailPage() {
   const [alerts, setAlerts] = useState<WeatherAlert[]>([]); // Use defined type
   const [loadingAlerts, setLoadingAlerts] = useState(true);
 
-  const [forecastDays, setForecastDays] = useState<ForecastDay[]>([]); // Use defined type
-  const [loadingForecast, setLoadingForecast] = useState(true);
+    const [forecastDays, setForecastDays] = useState<any[]>([]);
+    const [loadingForecast, setLoadingForecast] = useState(true);
+    const [pastStats, setPastStats] = useState<{
+      averageTemperatureC: number;
+      averagePrecipitationMm: number;
+      averageSnowfallCm: number;
+      averageRainDaysPerDay: number;
+      totalRainDays: number;
+      totalDays: number;
+    } | null>(null);
+    const [loadingPastStats, setLoadingPastStats] = useState(true);
 
   const [totalAcres, setTotalAcres] = useState(0);
   const [totalPlants, setTotalPlants] = useState(0);
@@ -197,6 +206,52 @@ export default function FarmDetailPage() {
     }
   };
 
+    useEffect(() => {
+      if (!user || !farm) return;
+      const getPastStats = async () => {
+        try {
+          const res = await fetch("/api/weather/get-past-stats", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ latitude: farm.location.latitude, longitude: farm.location.longitude }),
+          });
+          if (!res.ok) throw new Error(await res.text());
+          const data = await res.json();
+          setPastStats(data);
+        } catch (err) {
+          console.error("Error fetching past stats:", err);
+        } finally {
+          setLoadingPastStats(false);
+        }
+      };
+      getPastStats();
+    }, [user, farm]);
+
+    // fetch this farm once we know user
+    useEffect(() => {
+        if (!user) return;
+        setLoadingFarm(true);
+        fetch("/api/get-farm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.uid, farmId: farmid }),
+        })
+        .then(async (res) => {
+            if (!res.ok) throw new Error(await res.text());
+            return res.json();
+        })
+        .then((data) => {
+            const farmData = data.farm as Farm;
+            setFarm(data.farm as Farm);
+            setTotalAcres(
+                Object.values(farmData.plants).reduce((acc, acres) => acc + acres, 0)
+            );
+            setTotalPlants(
+                Object.keys(data.farm.plants).length
+            );})
+        .catch((err) => setError(err.message))
+        .finally(() => setLoadingFarm(false));
+    }, [user, farmid]);
   // Loading and Error States
   if (loadingAuth) return <div className="flex justify-center items-center min-h-screen">Authenticating...</div>;
   if (!user) return null; // Should be redirected by auth listener
@@ -240,6 +295,30 @@ export default function FarmDetailPage() {
           </p>
         </section>
 
+        <section className="mb-6">
+          <h2 className="text-xl font-semibold">Past Year Weather Averages</h2>
+          {loadingPastStats ? (
+            <p>Loading past year stats...</p>
+          ) : pastStats ? (
+            <ul className="list-disc list-inside">
+              <li>Avg Temp: {pastStats.averageTemperatureC}°C</li>
+              <li>Avg Precipitation: {pastStats.averagePrecipitationMm} mm</li>
+              <li>Avg Snowfall: {pastStats.averageSnowfallCm} cm</li>
+              <li>Total Rain Days: {pastStats.totalRainDays} days</li>
+              <li>Avg Rain Days per Day: {(pastStats.averageRainDaysPerDay * 100).toFixed(2)}%</li>
+            </ul>
+          ) : (
+            <p>No past stats available.</p>
+          )}
+        </section>
+
+        <section>
+            <h2 className="text-xl font-semibold mb-2">Crops</h2>
+            <p>
+            Total Acres: {totalAcres} acre{totalAcres !== 1 && "s"}<br />
+            Total Plants: {totalPlants} plant{totalPlants !== 1 && "s"}
+            </p>
+            <ul className="list-disc list-inside">
         {/* Crops Section */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Crops</h2>
@@ -309,6 +388,8 @@ export default function FarmDetailPage() {
               )) : <p>Forecast data not available.</p>}
             </div>
           )}
+        </section>
+        </ul>
         </section>
       </main>
 
