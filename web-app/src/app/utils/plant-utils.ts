@@ -1,4 +1,4 @@
-export const crops: string[] = [
+export const cropsList = [
     "Wheat",
     "Barley",
     "Canola",
