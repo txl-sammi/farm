@@ -84,6 +84,7 @@ export default function FarmDetailPage() {
       averageSnowfallCm: number;
       averageRainDaysPerDay: number;
       totalRainDays: number;
+      averageSoilMoisture: number;
       totalDays: number;
     } | null>(null);
     const [loadingPastStats, setLoadingPastStats] = useState(true);
@@ -210,7 +211,7 @@ export default function FarmDetailPage() {
       if (!user || !farm) return;
       const getPastStats = async () => {
         try {
-          const res = await fetch("/api/weather/get-past-stats", {
+          const res = await fetch("/api/weather/get-future-stats", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ latitude: farm.location.latitude, longitude: farm.location.longitude }),
@@ -285,62 +286,69 @@ export default function FarmDetailPage() {
       <main className={styles.farmDetailContent}>
         <h1 className={styles.pageTitle}>{farm.name}</h1>
 
-        {/* Location Section */}
-        <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>Location</h2>
-          <p className={styles.locationAddress}>{farm.address || "Address not available"}</p>
-          <p className={styles.locationCoords}>
-            Latitude: {farm.location.latitude.toFixed(5)},{" "}
-            Longitude: {farm.location.longitude.toFixed(5)}
-          </p>
-        </section>
-
-        <section className="mb-6">
-          <h2 className="text-xl font-semibold">Past Year Weather Averages</h2>
-          {loadingPastStats ? (
-            <p>Loading past year stats...</p>
-          ) : pastStats ? (
-            <ul className="list-disc list-inside">
-              <li>Avg Temp: {pastStats.averageTemperatureC}°C</li>
-              <li>Avg Precipitation: {pastStats.averagePrecipitationMm} mm</li>
-              <li>Avg Snowfall: {pastStats.averageSnowfallCm} cm</li>
-              <li>Total Rain Days: {pastStats.totalRainDays} days</li>
-              <li>Avg Rain Days per Day: {(pastStats.averageRainDaysPerDay * 100).toFixed(2)}%</li>
-            </ul>
-          ) : (
-            <p>No past stats available.</p>
-          )}
-        </section>
-
-        <section>
-            <h2 className="text-xl font-semibold mb-2">Crops</h2>
-            <p>
-            Total Acres: {totalAcres} acre{totalAcres !== 1 && "s"}<br />
-            Total Plants: {totalPlants} plant{totalPlants !== 1 && "s"}
+        <section className={styles.super_section}>
+            {/* Location Section */}
+            <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>{farm.address || "Address not available"}</h2>
+            <p className={styles.locationCoords}>
+                Latitude: {farm.location.latitude.toFixed(5)},{" "}
+                Longitude: {farm.location.longitude.toFixed(5)}
             </p>
+            <h4 className={styles.sectionTitle}>Next Year Weather Averages Predictions</h4>
+            {loadingPastStats ? (
+                <p>Loading stats...</p>
+            ) : pastStats ? (
             <ul className="list-disc list-inside">
-        {/* Crops Section */}
-        <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>Crops</h2>
-          <div className={styles.cropInfo}>
-            Total Acres: {totalAcres.toFixed(1)} acre{totalAcres !== 1 ? "s" : ""}<br />
-            Total Plant Types: {totalPlants}
-          </div>
-          <ul className={styles.cropList}>
-            {Object.entries(farm.plants)
-              .sort(([, acresA], [, acresB]) => (Number(acresB) || 0) - (Number(acresA) || 0)) // Sort descending by acres
-              .map(([plant, acres]) => {
-                const numericAcres = Number(acres) || 0;
-                const percentage = totalAcres > 0 ? Math.round((numericAcres / totalAcres) * 100) : 0;
-                return (
-                  <li key={plant} className={styles.cropListItem}>
-                    {plant}: {percentage}% - {numericAcres.toFixed(1)} acre{numericAcres !== 1 ? "s" : ""}
-                  </li>
-                );
-              })}
-          </ul>
+            {typeof pastStats.averageTemperatureC === 'number' && (
+                <li>Avg Temp: {pastStats.averageTemperatureC}°C</li>
+            )}
+            {typeof pastStats.averagePrecipitationMm === 'number' && (
+                <li>Avg Precipitation: {pastStats.averagePrecipitationMm} mm</li>
+            )}
+            {typeof pastStats.averageSnowfallCm === 'number' && (
+                <li>Avg Snowfall: {pastStats.averageSnowfallCm} cm</li>
+            )}
+            {typeof pastStats.totalRainDays === 'number' && pastStats.totalRainDays>0 && (
+                <li>Total Rain Days: {pastStats.totalRainDays} days</li>
+            )}
+            {typeof pastStats.averageRainDaysPerDay === 'number' && (
+                <li>Avg Rain Days per Day: {(pastStats.averageRainDaysPerDay * 100).toFixed(2)}%</li>
+            )}
+            {typeof pastStats.averageSoilMoisture === 'number' && (
+                <li>Avg Soil Moisture: {pastStats.averageSoilMoisture}</li>
+            )}
+            </ul>
+                ) : (
+                    <p>No past stats available.</p>
+                )}
+            </section>
+
+            
+            
+            {/* Crops Section */}
+            <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>Crops</h2>
+            <div className={styles.cropInfo}>
+                Total Acres: {totalAcres.toFixed(1)} acre{totalAcres !== 1 ? "s" : ""}<br />
+                Total Plant Types: {totalPlants}
+            </div>
+            <ul className={styles.cropList}>
+                {Object.entries(farm.plants)
+                .sort(([, acresA], [, acresB]) => (Number(acresB) || 0) - (Number(acresA) || 0)) // Sort descending by acres
+                .map(([plant, acres]) => {
+                    const numericAcres = Number(acres) || 0;
+                    const percentage = totalAcres > 0 ? Math.round((numericAcres / totalAcres) * 100) : 0;
+                    return (
+                    <li key={plant} className={styles.cropListItem}>
+                        {plant}: {percentage}% - {numericAcres.toFixed(1)} acre{numericAcres !== 1 ? "s" : ""}
+                    </li>
+                    );
+                })}
+            </ul>
+            </section>
         </section>
 
+        {/* Weather Section */}
         {/* Weather Alerts Section */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Weather Alerts</h2>
@@ -388,8 +396,6 @@ export default function FarmDetailPage() {
               )) : <p>Forecast data not available.</p>}
             </div>
           )}
-        </section>
-        </ul>
         </section>
       </main>
 
