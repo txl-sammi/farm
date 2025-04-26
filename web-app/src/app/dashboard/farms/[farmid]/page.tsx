@@ -84,6 +84,7 @@ export default function FarmDetailPage() {
       averageSnowfallCm: number;
       averageRainDaysPerDay: number;
       totalRainDays: number;
+      averageSoilMoisture: number;
       totalDays: number;
     } | null>(null);
     const [loadingPastStats, setLoadingPastStats] = useState(true);
@@ -210,7 +211,7 @@ export default function FarmDetailPage() {
       if (!user || !farm) return;
       const getPastStats = async () => {
         try {
-          const res = await fetch("/api/weather/get-past-stats", {
+          const res = await fetch("/api/weather/get-future-stats", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ latitude: farm.location.latitude, longitude: farm.location.longitude }),
@@ -287,16 +288,12 @@ export default function FarmDetailPage() {
 
         {/* Location Section */}
         <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>Location</h2>
-          <p className={styles.locationAddress}>{farm.address || "Address not available"}</p>
+          <h2 className={styles.sectionTitle}>{farm.address || "Address not available"}</h2>
           <p className={styles.locationCoords}>
             Latitude: {farm.location.latitude.toFixed(5)},{" "}
             Longitude: {farm.location.longitude.toFixed(5)}
           </p>
-        </section>
-
-        <section className="mb-6">
-          <h2 className="text-xl font-semibold">Past Year Weather Averages</h2>
+          <h4 className={styles.sectionTitle}>Past Year Weather Averages</h4>
           {loadingPastStats ? (
             <p>Loading past year stats...</p>
           ) : pastStats ? (
@@ -306,11 +303,14 @@ export default function FarmDetailPage() {
               <li>Avg Snowfall: {pastStats.averageSnowfallCm} cm</li>
               <li>Total Rain Days: {pastStats.totalRainDays} days</li>
               <li>Avg Rain Days per Day: {(pastStats.averageRainDaysPerDay * 100).toFixed(2)}%</li>
+              <li>Avg Soil Moistre: {pastStats.totalRainDays}</li>
             </ul>
           ) : (
             <p>No past stats available.</p>
           )}
         </section>
+
+        
 
         <section>
             <h2 className="text-xl font-semibold mb-2">Crops</h2>
