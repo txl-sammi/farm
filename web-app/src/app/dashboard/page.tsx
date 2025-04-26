@@ -122,7 +122,7 @@ export default function Dashboard() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 userId: user.uid,
-                name: farmName, 
+                name: farmName,
                 location,
                 plants,
             }),
@@ -162,7 +162,7 @@ export default function Dashboard() {
         <ul className="list-disc list-inside mb-6">
             {farms.length > 0 && farms.map((farm) => (
             <li key={farm.id} className="mb-2">
-                <strong>{farm.name}</strong> - {farm.location?.latitude}, {farm.location?.longitude}
+                <strong>{farm.name}</strong> - {farm.address}
                 <ul className="list-disc list-inside ml-4">
                 {Object.entries(farm.plants).map(([plant, acres]) => (
                     <li key={plant}>
