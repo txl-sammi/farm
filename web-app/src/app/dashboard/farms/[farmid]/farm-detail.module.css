@@ -1,0 +1,250 @@
+/* filepath: /Users/ericzhang/Documents/GitHub/farm/web-app/src/app/dashboard/farms/[farmid]/farm-detail.module.css */
+/* Farm Detail page styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: var(--font-geist-sans);
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    /* Spacing between sections */
+    min-height: 100vh;
+    /* Ensure footer is pushed down */
+}
+
+/* Navbar styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
+}
+
+.logo {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.navLinks {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.navLinks a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Logout Button Styles */
+.logoutButton {
+    background-color: #dc3545;
+    /* Red background for logout */
+    color: white;
+    padding: 0.5rem 1rem;
+    /* 8px 16px */
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.logoutButton:hover {
+    background-color: #c82333;
+    /* Darker red on hover */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.logoutButton:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.4);
+    /* Focus ring */
+}
+
+/* Main content area */
+.farmDetailContent {
+    flex-grow: 1;
+    /* Allow content to take available space */
+    background-color: #ffffff;
+    /* Optional: White background for content area */
+    padding: 1.5rem;
+    /* 24px */
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.pageTitle {
+    font-size: 1.875rem;
+    /* 30px */
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    /* 24px */
+    color: #3a4d28;
+    /* Theme green */
+}
+
+.section {
+    margin-bottom: 2rem;
+    /* 32px */
+    padding: 1.5rem;
+    /* 24px */
+    background-color: #f8f9fa;
+    /* Light background for sections */
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.sectionTitle {
+    font-size: 1.25rem;
+    /* 20px */
+    font-weight: 600;
+    margin-bottom: 1rem;
+    /* 16px */
+    color: #495057;
+}
+
+.locationAddress {
+    font-style: italic;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+}
+
+.locationCoords {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.cropInfo {
+    margin-bottom: 1rem;
+}
+
+.cropList {
+    list-style: none;
+    /* Remove default list styles */
+    padding: 0;
+}
+
+.cropListItem {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.cropListItem:last-child {
+    border-bottom: none;
+}
+
+.alertList {
+    list-style: none;
+    /* Remove default list styles */
+    padding: 0;
+}
+
+.alertListItem {
+    background-color: #fff3cd;
+    /* Warning yellow background */
+    color: #856404;
+    /* Warning yellow text */
+    border: 1px solid #ffeeba;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+
+.alertListItem strong {
+    font-weight: 600;
+}
+
+.noAlerts {
+    color: #6c757d;
+    font-style: italic;
+}
+
+.forecastGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    /* Responsive grid */
+    gap: 1rem;
+    /* 16px */
+}
+
+.forecastCard {
+    padding: 1rem;
+    /* 16px */
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.forecastDate {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.forecastIcon {
+    margin: 0.5rem auto;
+    display: block;
+    /* Center image */
+}
+
+.forecastCondition {
+    font-size: 0.9rem;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.forecastDetail {
+    font-size: 0.85rem;
+    /* Smaller text for details */
+    color: #6c757d;
+    line-height: 1.4;
+    margin-bottom: 0.25rem;
+}
+
+.forecastDetail strong {
+    color: #495057;
+    font-weight: 500;
+}
+
+
+/* Footer styles */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    flex-shrink: 0;
+    margin-top: auto;
+    /* Push footer to bottom */
+}
+
+.footerLogo {
+    width: 40px;
+    height: 40px;
+}
+
+.socialLinks {
+    display: flex;
+    gap: 20px;
+}
+
+.socialLinks a {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
