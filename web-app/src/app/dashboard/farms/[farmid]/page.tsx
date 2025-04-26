@@ -35,6 +35,9 @@ export default function FarmDetailPage() {
     const [alerts, setAlerts] = useState<any[]>([]); // TODO: Define a proper type for alerts
     const [loadingAlerts, setLoadingAlerts] = useState(true);      
 
+    const [forecastDays, setForecastDays] = useState<any[]>([]);
+    const [loadingForecast, setLoadingForecast] = useState(true);
+
     const [totalAcres, setTotalAcres] = useState(0);
     const [totalPlants, setTotalPlants] = useState(0);
     // wait for auth
@@ -65,6 +68,28 @@ export default function FarmDetailPage() {
             console.log("Weather alerts:", data);
         };
         getAlerts();
+    }, [user, farm]);
+
+    useEffect(() => {
+      if (!user || !farm) return;
+      const getForecast = async () => {
+        try {
+          const res = await fetch("/api/weather/get-forecast", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ latitude: farm.location.latitude, longitude: farm.location.longitude }),
+          });
+          if (!res.ok) throw new Error(await res.text());
+          const data = await res.json();
+          setForecastDays(data.forecast.forecast.forecastday);
+          console.log("Weather forecast:", data);
+        } catch (err) {
+          console.error("Error fetching forecast:", err);
+        } finally {
+          setLoadingForecast(false);
+        }
+      };
+      getForecast();
     }, [user, farm]);
 
     // fetch this farm once we know user
@@ -144,6 +169,36 @@ export default function FarmDetailPage() {
                 )}
             </ul>
             )}
+        </section>
+
+        <section className="mt-6">
+          <h2 className="text-xl font-semibold mb-4">14-Day Forecast</h2>
+          {loadingForecast ? (
+            <p>Loading forecast...</p>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+              {forecastDays && forecastDays.map((day) => (
+                <div key={day.date} className="p-4 border rounded-lg bg-white shadow-sm">
+                  <p className="font-medium">{new Date(day.date).toLocaleDateString()}</p>
+                  <img src={day.day.condition.icon} alt={day.day.condition.text} className="mx-auto my-2" />
+                  <p className="text-sm">{day.day.condition.text}</p>
+                  <p className="text-sm">High: {day.day.maxtemp_c.toFixed(1)}°C</p>
+                  <p className="text-sm">Low: {day.day.mintemp_c.toFixed(1)}°C</p>
+                  <p className="text-sm">Max Temp: {day.day.maxtemp_c.toFixed(1)}°C / {day.day.maxtemp_f.toFixed(1)}°F</p>
+                  <p className="text-sm">Min Temp: {day.day.mintemp_c.toFixed(1)}°C / {day.day.mintemp_f.toFixed(1)}°F</p>
+                  <p className="text-sm">Avg Temp: {day.day.avgtemp_c.toFixed(1)}°C / {day.day.avgtemp_f.toFixed(1)}°F</p>
+                  <p className="text-sm">Max Wind: {day.day.maxwind_kph.toFixed(1)} kph / {day.day.maxwind_mph.toFixed(1)} mph</p>
+                  <p className="text-sm">Precip: {day.day.totalprecip_mm.toFixed(1)} mm / {day.day.totalprecip_in.toFixed(1)} in</p>
+                  <p className="text-sm">Snow: {day.day.totalsnow_cm.toFixed(1)} cm</p>
+                  <p className="text-sm">Visibility: {day.day.avgvis_km.toFixed(1)} km / {day.day.avgvis_miles.toFixed(1)} miles</p>
+                  <p className="text-sm">Humidity: {day.day.avghumidity}%</p>
+                  <p className="text-sm">Chance Rain: {day.day.daily_chance_of_rain}% | Will Rain: {day.day.daily_will_it_rain ? 'Yes' : 'No'}</p>
+                  <p className="text-sm">Chance Snow: {day.day.daily_chance_of_snow}% | Will Snow: {day.day.daily_will_it_snow ? 'Yes' : 'No'}</p>
+                  <p className="text-sm">UV Index: {day.day.uv.toFixed(1)}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
         </div>
     );
