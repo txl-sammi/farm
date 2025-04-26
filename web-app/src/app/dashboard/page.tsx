@@ -18,6 +18,7 @@ interface UserData {
 interface Location {
     latitude: number;
     longitude: number;
+    address: string;
   }
 
 export default function Dashboard() {
@@ -83,26 +84,12 @@ export default function Dashboard() {
     console.log("Selected Location:", loc);
   };
 
-
-  const handleSearchLocation = async () => {
-    if (!searchText) return;
-  
-    try {
-      const response = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(searchText)}&key=YOUR_OPENCAGE_API_KEY`);
-      const data = await response.json();
-      if (data.results && data.results.length > 0) {
-        setSearchResults(data.results);
-      } else {
-        setSearchResults([]);
-        alert("No locations found.");
-      }
-    } catch (error) {
-      console.error("Error searching location:", error);
-      alert("Failed to search location.");
-    }
-  };
-
   const handleSubmitFarm = async () => {
+    console.log("Submitting farm with data:", {
+        userId: user?.uid,
+        location,
+        plants,
+    });
     if (!location || Object.keys(plants).length === 0 || !user) {
       alert("Please add at least one plant and get location.");
       return;
@@ -227,7 +214,10 @@ export default function Dashboard() {
 
                 {/* Location */}
                 <div className="mb-4">
-                <GooglePlacesAutocomplete onLocationSelect={handleLocationSelect}/>
+                <GooglePlacesAutocomplete 
+                onLocationSelect={handleLocationSelect} 
+                initialAddress={location?.address || ""}
+                />
                 {location && (
                     <pre>{JSON.stringify(location, null, 2)}</pre>
                 )}
@@ -246,6 +236,7 @@ export default function Dashboard() {
                             setLocation({
                             latitude: result.geometry.lat,
                             longitude: result.geometry.lng,
+                            address: result.formatted_address,
                             });
                             setSearchResults([]);
                             setSearchText("");
