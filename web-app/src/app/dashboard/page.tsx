@@ -6,6 +6,7 @@ import { app } from "@/app/firebase";
 import { useRouter } from "next/navigation";
 import { cropsList } from "@/app/utils/plant-utils"; // Assuming you have a separate file for crop options
 import GooglePlacesAutocomplete from "@/app/widgets/GoogleMap"; // Assuming you have a Google Map component}
+import Link from "next/link";
 
 const auth = getAuth(app);
 
@@ -161,16 +162,20 @@ export default function Dashboard() {
         <h2 className="text-xl font-semibold mb-4">Your Farms:</h2>
         <ul className="list-disc list-inside mb-6">
             {farms.length > 0 && farms.map((farm) => (
-            <li key={farm.id} className="mb-2">
-                <strong>{farm.name}</strong> - {farm.address}
-                <ul className="list-disc list-inside ml-4">
-                {Object.entries(farm.plants).map(([plant, acres]) => (
-                    <li key={plant}>
-                    {plant}: {acres as number} acres
-                    </li>
-                ))}
-                </ul>
-            </li>
+            <Link href={`/dashboard/farms/${farm.id}`} key={farm.id}>
+                <div className="border p-4 mb-2 rounded-lg hover:bg-gray-100 transition">
+                <li key={farm.id} className="mb-2">
+                    <strong>{farm.name}</strong> - {farm.address}
+                    <ul className="list-disc list-inside ml-4">
+                    {Object.entries(farm.plants).map(([plant, acres]) => (
+                        <li key={plant}>
+                        {plant}: {acres as number} acres
+                        </li>
+                    ))}
+                    </ul>
+                </li>
+                </div>
+            </Link>
             ))}
         </ul>
 
