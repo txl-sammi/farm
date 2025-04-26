@@ -61,12 +61,13 @@ export default function PlanPage() {
   const calculateCropShares = (acres: number, crops: string[]) => {
     const totalShares = crops.reduce((acc, crop) => {
         const cropScore = cropRankings.find((c) => c.name === crop)?.score || 0;
+        console.log("Crop to add share:", crop, "Score:", cropScore);
         return acc + cropScore ** 2; // Square the score to give more weight to higher scores
       }, 0);
     return crops.reduce((acc, crop) => {
       const cropScore = cropRankings.find((c) => c.name === crop)?.score || 0;
       console.log("Crop:", crop, "Score:", cropScore, "Total Shares:", totalShares);
-      const propotionalShare = (cropScore / totalShares) * acres;
+      const propotionalShare = (cropScore**2 / totalShares) * acres;
       return { ...acc, [crop]: propotionalShare };
     }, {});
   };
