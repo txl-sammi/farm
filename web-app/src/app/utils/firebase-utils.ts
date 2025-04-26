@@ -47,7 +47,7 @@ export async function getAllFarms(userId: string) {
 export async function saveFarmToFirestore(
   userId: string,
   name: string,
-  location: { latitude: number; longitude: number },
+  location: { latitude: number; longitude: number, address: string },
   plants: string[]
 ) {
   const farmId = uuidv4();
@@ -61,6 +61,7 @@ export async function saveFarmToFirestore(
   await setDoc(farmRef, {
     name: name,
     location: new GeoPoint(location.latitude, location.longitude),
+    address: location.address,
     plants: plants,
   }, { merge: true });
   return farmId;
