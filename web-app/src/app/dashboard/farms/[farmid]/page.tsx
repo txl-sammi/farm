@@ -1,7 +1,7 @@
 // /app/dashboard/farms/[farmid]/page.tsx
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 import { app } from "@/app/firebase";
@@ -16,6 +16,7 @@ interface Farm {
   id: string;
   name: string;
   location: Location;
+  address: string;
   plants: { [plantName: string]: number };
 }
 
@@ -33,6 +34,9 @@ export default function FarmDetailPage() {
 
     const [alerts, setAlerts] = useState<any[]>([]); // TODO: Define a proper type for alerts
     const [loadingAlerts, setLoadingAlerts] = useState(true);      
+
+    const [totalAcres, setTotalAcres] = useState(0);
+    const [totalPlants, setTotalPlants] = useState(0);
     // wait for auth
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (u) => {
@@ -76,7 +80,15 @@ export default function FarmDetailPage() {
             if (!res.ok) throw new Error(await res.text());
             return res.json();
         })
-        .then((data) => setFarm(data.farm as Farm))
+        .then((data) => {
+            const farmData = data.farm as Farm;
+            setFarm(data.farm as Farm);
+            setTotalAcres(
+                Object.values(farmData.plants).reduce((acc, acres) => acc + acres, 0)
+            );
+            setTotalPlants(
+                Object.keys(data.farm.plants).length
+            );})
         .catch((err) => setError(err.message))
         .finally(() => setLoadingFarm(false));
     }, [user, farmid]);
@@ -87,30 +99,29 @@ export default function FarmDetailPage() {
 
     return (
         <div className="p-6">
-        <h1 className="text-2xl font-bold mb-4">Farm Details</h1>
-
-        <section className="mb-6">
-            <h2 className="text-xl font-semibold">Name</h2>
-            <p>{farm.name}</p>
-        </section>
+        <h1 className="text-2xl font-bold mb-4">{farm.name} Details</h1>
 
         <section className="mb-6">
             <h2 className="text-xl font-semibold">Location</h2>
+            <p className="italic text-sm">{farm.address}</p>
             <p>
-            {farm.location.latitude.toFixed(5)},{" "}
-            {farm.location.longitude.toFixed(5)}
+            Latitude: {farm.location.latitude.toFixed(5)},{" "}
+            Longitude: {farm.location.longitude.toFixed(5)}
             </p>
-            {farm.location.address && (
-            <p className="italic text-sm">{farm.location.address}</p>
-            )}
         </section>
 
         <section>
             <h2 className="text-xl font-semibold mb-2">Crops</h2>
+            <p>
+            Total Acres: {totalAcres} acre{totalAcres !== 1 && "s"}<br />
+            Total Plants: {totalPlants} plant{totalPlants !== 1 && "s"}
+            </p>
             <ul className="list-disc list-inside">
-            {Object.entries(farm.plants).map(([plant, acres]) => (
+            {Object.entries(farm.plants)
+              .sort(([, acresA], [, acresB]) => acresB - acresA)
+              .map(([plant, acres]) => (
                 <li key={plant}>
-                {plant}: {acres} acre{acres !== 1 && "s"}
+                  {plant}: {Math.round((acres / totalAcres) * 100)}% - {acres} acre{acres !== 1 && "s"}
                 </li>
             ))}
             </ul>
