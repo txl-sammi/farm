@@ -229,7 +229,7 @@ export default function Dashboard() {
                                     <ul className={styles.plantList}>
                                         {Object.entries(farm.plants).map(([plant, acres]) => (
                                             <li key={plant}>
-                                                {plant}: {acres as number} acres
+                                                {plant}: {(acres as number).toFixed(1)} acres
                                             </li>
                                         ))}
                                     </ul>
@@ -270,8 +270,8 @@ export default function Dashboard() {
                                     >
                                         Add Existing Farm
                                     </button>
-                                    <button className={styles.tertiaryButton} disabled> {/* Disable unimplemented feature */}
-                                        Plan New Farm (Coming Soon)
+                                    <button className={styles.tertiaryButton} onClick={() => {router.push("dashboard/plan")}}>
+                                        Plan New Farm
                                     </button>
                                 </div>
                             </>

@@ -63,7 +63,7 @@ export interface CropAttributes {
   pestSensitivity: number;                    // Sensitivity to pests (0 low – 1 high)
 }
 
-export const cropAttributes: Record<CropName, CropAttributes> = {
+export const cropAttributes = {
   Wheat:               { optimalTempRangeC: [12, 25], rainfallCorrelation: 0.7,  snowCorrelation: -0.2, pestSensitivity: 0.6 },
   Barley:              { optimalTempRangeC: [10, 20], rainfallCorrelation: 0.6,  snowCorrelation: -0.1, pestSensitivity: 0.5 },
   Canola:              { optimalTempRangeC: [8, 23],  rainfallCorrelation: 0.8,  snowCorrelation: -0.3, pestSensitivity: 0.7 },
