@@ -104,6 +104,21 @@
     border: 1px solid #e9ecef;
 }
 
+.super_section {
+    display: flex;
+    gap: 2rem; /* Add spacing between the two sections */
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+.super_section > div {
+    flex: 1 1 50%;
+    min-width: 300px; /* Optional: set a min width for responsiveness */
+    border-right: 1px solid #e0e0e0; /* Divider */
+    padding-right: 1rem; /* Optional: space after divider */
+}
+
+.super_section > div:last-child {
+    border-right: none; /* No divider on the last sect
 .sectionTitle {
     font-size: 1.25rem;
     /* 20px */
