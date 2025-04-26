@@ -330,5 +330,45 @@ export const cropsList = [
       optimalSoilMoisture: [10, 20],
       optimalPrecipitation: [500, 700], // Example: 500mm to 700mm of precipitation
     },
+    Rice: {
+      optimalTempRangeC: [20, 35],
+      rainfallCorrelation: 0.8,
+      snowCorrelation: -0.5,
+      pestSensitivity: 0.7,
+      optimalSoilMoisture: [30, 40],
+      optimalPrecipitation: [1000, 2000],
+    },
+    Soybeans: {
+      optimalTempRangeC: [15, 30],
+      rainfallCorrelation: 0.7,
+      snowCorrelation: -0.3,
+      pestSensitivity: 0.6,
+      optimalSoilMoisture: [20, 30],
+      optimalPrecipitation: [500, 800],
+    },
+    "Corn (maize)": {
+      optimalTempRangeC: [18, 27],
+      rainfallCorrelation: 0.75,
+      snowCorrelation: -0.4,
+      pestSensitivity: 0.65,
+      optimalSoilMoisture: [25, 35],
+      optimalPrecipitation: [600, 900],
+    },
+    Sunflower: {
+      optimalTempRangeC: [20, 30],
+      rainfallCorrelation: 0.6,
+      snowCorrelation: -0.2,
+      pestSensitivity: 0.5,
+      optimalSoilMoisture: [15, 25],
+      optimalPrecipitation: [400, 600],
+    },
+    Sugarcane: {
+      optimalTempRangeC: [20, 32],
+      rainfallCorrelation: 0.85,
+      snowCorrelation: -0.6,
+      pestSensitivity: 0.7,
+      optimalSoilMoisture: [30, 50],
+      optimalPrecipitation: [1200, 1800],
+    },
   };
   
