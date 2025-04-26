@@ -37,14 +37,14 @@ export default function LoginPage() {
       {/* Header/Navbar */}
       <nav className={styles.navbar}>
         <div className={styles.logo}>
-          <Link href="/">
-            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="40" height="40" rx="8" fill="#5C6F40" fillOpacity="0.8" />
-              <path d="M14 15C14 13.8954 14.8954 13 16 13H24C25.1046 13 26 13.8954 26 15V25C26 26.1046 25.1046 27 24 27H16C14.8954 27 14 26.1046 14 25V15Z" stroke="white" strokeWidth="2" />
-              <path d="M18 18L22 22" stroke="white" strokeWidth="2" strokeLinecap="round" />
-              <path d="M22 18L18 22" stroke="white" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-          </Link>
+          {/* <Link href="/"> */}
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="8" fill="#5C6F40" fillOpacity="0.8" />
+            <path d="M14 15C14 13.8954 14.8954 13 16 13H24C25.1046 13 26 13.8954 26 15V25C26 26.1046 25.1046 27 24 27H16C14.8954 27 14 26.1046 14 25V15Z" stroke="white" strokeWidth="2" />
+            <path d="M18 18L22 22" stroke="white" strokeWidth="2" strokeLinecap="round" />
+            <path d="M22 18L18 22" stroke="white" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+          {/* </Link> */}
         </div>
         <div className={styles.navLinks}>
           <Link href="/about">About</Link>
@@ -85,14 +85,14 @@ export default function LoginPage() {
       {/* Footer */}
       <footer className={styles.footer}>
         <div className={styles.footerLogo}>
-          <Link href="/">
-            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="40" height="40" rx="8" fill="#5C6F40" fillOpacity="0.8" />
-              <path d="M14 15C14 13.8954 14.8954 13 16 13H24C25.1046 13 26 13.8954 26 15V25C26 26.1046 25.1046 27 24 27H16C14.8954 27 14 26.1046 14 25V15Z" stroke="white" strokeWidth="2" />
-              <path d="M18 18L22 22" stroke="white" strokeWidth="2" strokeLinecap="round" />
-              <path d="M22 18L18 22" stroke="white" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-          </Link>
+          {/* <Link href="/"> */}
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="8" fill="#5C6F40" fillOpacity="0.8" />
+            <path d="M14 15C14 13.8954 14.8954 13 16 13H24C25.1046 13 26 13.8954 26 15V25C26 26.1046 25.1046 27 24 27H16C14.8954 27 14 26.1046 14 25V15Z" stroke="white" strokeWidth="2" />
+            <path d="M18 18L22 22" stroke="white" strokeWidth="2" strokeLinecap="round" />
+            <path d="M22 18L18 22" stroke="white" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+          {/* </Link> */}
         </div>
         <div className={styles.socialLinks}>
           <a href="#" aria-label="Facebook">

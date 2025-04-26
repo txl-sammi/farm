@@ -6,9 +6,9 @@
     font-family: var(--font-geist-sans);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    gap: 40px;
     min-height: 100vh;
+    /* Ensure container takes full viewport height */
 }
 
 /* Navbar styles */
@@ -20,8 +20,8 @@
     background-color: #f8f8f8;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    width: 100%;
-    margin-bottom: 40px;
+    flex-shrink: 0;
+    /* Prevent navbar from shrinking */
 }
 
 .logo {
@@ -59,6 +59,12 @@
     border-radius: 8px;
     background-color: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    /* Added to push card down */
+    margin-bottom: auto;
+    /* Added to push footer down */
 }
 
 .card h1 {
@@ -134,8 +140,8 @@
     padding: 20px;
     background-color: #f8f8f8;
     border-radius: 10px;
-    margin-top: 40px;
-    width: 100%;
+    flex-shrink: 0;
+    /* Prevent footer from shrinking */
 }
 
 .footerLogo {
